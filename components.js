@@ -1,7 +1,9 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-class StoryBox extends React.COmponent {
+class StoryBox extends React.Component {
 	render(){
-		return( <div>Story Box</div> );
+		return( <div><h1>Story Box</h1></div> );
 	}
 }
 
