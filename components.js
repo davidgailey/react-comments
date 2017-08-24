@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 
 class StoryBox extends React.Component {
 	render(){
-		return( <div><h1>Story Box</h1></div> );
+		return( <div><h1>Story Boxing 2</h1></div> );
 	}
 }
 
