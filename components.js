@@ -1,12 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class StoryBox extends React.Component {
+class Comment extends React.Component {
 	render(){
-		return( <div><h1>Story Boxing 2</h1></div> );
+
+		
+		return(
+			<div className="comment">
+				<p className="comment-header">Anne Droid</p>
+				<p className="comment-body">
+					I wanna know what love is
+				</p>
+
+				<div className="comment-footer">
+					<a href="#" className="comment-footer-delete">
+						Delete Comment
+					</a>
+				</div>
+			</div>
+		);
 	}
 }
 
 ReactDOM.render(
-	<StoryBox />, document.getElementById('story-app')
+	<Comment />, document.getElementById('story-app')
 );
