@@ -4,6 +4,51 @@ import ReactDOM from 'react-dom';
 
 class CommentBox extends React.Component {
 
+	constructor(){
+		super(); //call super to set up 'this' from parent constructor in React.Component
+
+		// set intial state for show/hide comments
+		this.state = {
+			showComments:false
+		};
+	}
+
+	render() {
+		const comments = this._getComments();
+		let commentNodes;
+		let buttonText = 'Show Comments';
+
+		// show/hide comments based on state
+		if(this.state.showComments){
+			commentNodes = <div className="comment-list">{comments}</div>;
+		}
+
+		// switch button text based on current state
+		if(this.state.showComments){
+			buttonText = 'Hide Comments';
+		}
+
+		return(
+				<div className="comment-box">
+					<h3>Comments</h3>
+					<h4 className="comment-count">
+						{this._getCommentsTitle(comments.length)}
+					</h4>
+					<button onClick={this._handleClick.bind(this)}>
+						{buttonText}
+					</button>
+					{commentNodes}
+				</div>
+
+		);
+	}
+
+	_handleClick(){
+		this.setState({
+			showComments: !this.state.showComments
+		});
+	}
+
 	_getComments() {
 
 		// can be replaced with an ajax call
@@ -31,21 +76,6 @@ class CommentBox extends React.Component {
 		}
 	}
 
-	render() {
-		const comments = this._getComments();
-		return(
-				<div className="comment-box">
-					<h3>Comments</h3>
-					<h4 className="comment-count">
-						{this._getCommentsTitle(comments.length)}
-					</h4>
-					<div className="comment-list">
-						{comments}
-					</div>
-				</div>
-
-		);
-	}
 }
 
 class Comment extends React.Component {
@@ -73,3 +103,4 @@ class Comment extends React.Component {
 ReactDOM.render(
 	<CommentBox />, document.getElementById('comment-app')
 );
+
