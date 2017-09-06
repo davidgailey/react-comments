@@ -9,8 +9,13 @@ class CommentBox extends React.Component {
 
 		// set intial state for show/hide comments
 		this.state = {
-			showComments:false
+			showComments:false,
+			comments: []
 		};
+	}
+
+	componentWillMount() {
+		_fetchComments();
 	}
 
 	render() {
@@ -43,6 +48,10 @@ class CommentBox extends React.Component {
 		);
 	}
 
+	componentDidMount() {
+		setInterval(()=> this._fetchComments(), 5000);
+	} 
+
 	_handleClick(){
 		this.setState({
 			showComments: !this.state.showComments
@@ -74,6 +83,25 @@ class CommentBox extends React.Component {
 		}else{
 			return `${commentCount} comments`;
 		}
+	}
+
+	_fetchComments() {
+		var xhr = new XMLHttpRequest();
+		xhr.open('GET', '/api/comments');
+		xhr.send(null);
+		xhr.onreadystatechange = () => {
+			var DONE = 4; // readyState 4 means the request is done.
+			var OK = 200; // status 200 is a successful return.
+			if (xhr.readyState === DONE) {
+				if (xhr.status === OK) {
+					let response = JSON.parse(xhr.responseText);
+					this.setState(response); // this is preserved via arrow function
+					console.log(response);
+				} else {
+					console.log('Error: ' + xhr.status); // An error occurred during the request.
+				}
+			}
+		};
 	}
 
 }
