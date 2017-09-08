@@ -1,5 +1,5 @@
 {
-  "name": "react-stories",
+  "name": "react-comments",
   "version": "1.0.0",
   "description": "A simple react app that allows users to add stories or comments",
   "main": "components.js",
@@ -28,6 +28,7 @@
     "webpack": "^3.5.5"
   },
   "dependencies": {
+    "express": "^4.15.4",
     "morgan": "^1.8.2"
   }
 }
