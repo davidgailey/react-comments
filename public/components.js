@@ -1,5 +1,5 @@
-import React from '../react';
-import ReactDOM from '../react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
 
 class CommentBox extends React.Component {
@@ -89,9 +89,11 @@ class CommentBox extends React.Component {
 		var xhr = new XMLHttpRequest();
 		xhr.open('GET', '/api/comments');
 		xhr.send(null);
-		xhr.onreadystatechange = () => { 
-			if (xhr.readyState === 4) { // readyState 4 means the request is done.
-				if (xhr.status === 200) { // status 200 is a successful return.
+		xhr.onreadystatechange = () => {
+			var DONE = 4; // readyState 4 means the request is done.
+			var OK = 200; // status 200 is a successful return.
+			if (xhr.readyState === DONE) {
+				if (xhr.status === OK) {
 					let response = JSON.parse(xhr.responseText);
 					this.setState(response); // this is preserved via arrow function
 					console.log(response);
