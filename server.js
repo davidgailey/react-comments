@@ -1,6 +1,8 @@
-var express = require('express'),
+const express = require('express'),
 	morgan = require('morgan'),
-	app = express();
+	mongoose = require('mongoose'),
+	app = express(),
+	keys = require('./config/keys');
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -9,6 +11,9 @@ app.use(morgan('dev'));
 
 // serve static content, express will use index.html for the "/" route
 app.use(express.static(__dirname + '/public'));
+
+// connect to mongo database
+mongoose.connect(keys.mongoURI);
 
 // comment CRUD api
 	// Create comments
