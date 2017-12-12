@@ -15,10 +15,16 @@ app.use(express.static(__dirname + '/public'));
 // connect to mongo database
 mongoose.connect(keys.mongoURI);
 
+// set up mongoose comments collection 
+require('./models/Comment');
+
+// init mongoose Classes
+const Comment = mongoose.model('comments');
+
 // comment CRUD api
 	// Create comments
 	app.put('/api/comments', function(request, response) {
-		
+		new Comment({/*to do: get info from request*/});
 	});
 
 	// Read comments
