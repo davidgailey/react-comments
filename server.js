@@ -2,7 +2,10 @@ const express = require('express'),
 	morgan = require('morgan'),
 	mongoose = require('mongoose'),
 	app = express(),
-	keys = require('./config/keys');
+	bodyParser = require('body-parser'),
+	multer = require('multer'),
+	upload = multer(), // for parsing multipart/form-data
+	keys = require('./config/keys')
 
 app.set('port', (process.env.PORT || 5000));
 
@@ -11,6 +14,12 @@ app.use(morgan('dev'));
 
 // serve static content, express will use index.html for the "/" route
 app.use(express.static(__dirname + '/public'));
+
+// for parsing application/json
+app.use(bodyParser.json());
+
+// for parsing application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true })); 
 
 // connect to mongo database
 mongoose.connect(keys.mongoURI);
@@ -23,8 +32,13 @@ const Comment = mongoose.model('comments');
 
 // comment CRUD api
 	// Create comments
-	app.put('/api/comments', function(request, response) {
-		new Comment({/*to do: get info from request*/});
+	app.post('/api/comments', function(request, response) {
+		console.log(request.params.id);
+		Comment.findOne(request.params.id)
+		.then(
+			//new Comment({/*to do: get info from request*/}).save;
+		)
+		
 	});
 
 	// Read comments
@@ -38,7 +52,7 @@ const Comment = mongoose.model('comments');
 	});
 
 	// Update comments
-	app.post('/api/comments', function(request, response) {
+	app.put('/api/comments', function(request, response) {
 		
 	});
 
