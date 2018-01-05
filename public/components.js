@@ -13,7 +13,7 @@ class CommentBox extends React.Component {
 			comments: [
 				{id:1, author: 'Jerry', body: 'I like cheese'},
 				{id:2, author: 'Tom', body: 'I like mice!'}
-			];
+			]
 		};
 	}
 
@@ -38,14 +38,24 @@ class CommentBox extends React.Component {
 
 		return(
 				<div className="comment-box">
-					<h3>Comments</h3>
-					<h4 className="comment-count">
-						{this._getCommentsTitle(comments.length)}
-					</h4>
-					<button onClick={this._handleClick.bind(this)}>
-						{buttonText}
-					</button>
-					{commentNodes}
+					<h3>React Comments</h3>
+					
+					<CommentForm 
+						title="What do you have to say?"
+						authorLabel="What is your name?"
+						bodyLabel="Please type your comment here."
+						submitButtonText="Add Comment"
+						/>
+
+					<div className="card bg-dark mb-3" style={{padding: '1em',color:'#fff'}}>
+						<div className="card-body">
+							<h5 className="card-title">{this._getCommentsTitle(comments.length)}</h5>
+							<button onClick={this._handleClick.bind(this)} className="btn btn-secondary btn-lg">
+								{buttonText}
+							</button>
+							{commentNodes}
+						</div>
+					</div>
 				</div>
 
 		);
@@ -154,21 +164,32 @@ class Comment extends React.Component {
 class CommentForm extends React.Component {
 	render(){
 		return(
-			<form 	className="comment-form" 
-					onSubmit={this._handleSubmit.bind(this)}
-				>
-				<label>
-					<input type="text" placeholder="{this.props.authorLabel}" />
-				</label>
-				<label>
-					{this.props.bodyLabel}
-					<textarea></textarea>
-				</label>
+			<div className="card bg-light mb-3" style={{padding: '1em'}}>
+				<div className="card-body">
+					<h5 className="card-title">{this.props.title}</h5>
+					<form 	className="comment-form" 
+							onSubmit={this._handleSubmit.bind(this)}
+						>
+						<div className="form-group">
+							<label for="author">
+								{this.props.authorLabel}
+							</label>
+							<input type="text" className="form-control form-control-lg"/>
+						</div>
 
-				<button onClick={this._handleClick.bind(this)}>
-					{this.props.buttonText}
-				</button>
-			</form>
+						<div className="form-group">
+							<label for="body">
+								{this.props.bodyLabel}
+							</label>
+							<textarea id="body" className="form-control form-control-lg"></textarea>
+						</div>
+
+						<button type="submit" className="btn btn-outline-primary btn-lg">
+							{this.props.submitButtonText}
+						</button>
+					</form>
+				</div>
+			</div>
 		);
 	}
 

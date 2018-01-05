@@ -10,12 +10,15 @@ class CommentBox extends React.Component {
 		// set intial state for show/hide comments
 		this.state = {
 			showComments:false,
-			comments: []
+			comments: [
+				{id:1, author: 'Jerry', body: 'I like cheese'},
+				{id:2, author: 'Tom', body: 'I like mice!'}
+			];
 		};
 	}
 
 	componentWillMount() {
-		this._fetchComments();
+		this._fetchComments(); // perhaps we should use componentWillUpdate? https://medium.com/@baphemot/understanding-reactjs-setstate-a4640451865b
 	}
 
 	render() {
@@ -59,13 +62,7 @@ class CommentBox extends React.Component {
 	}
 
 	_getComments() {
-
-		// can be replaced with an ajax call
-		const commentList = [
-			{id:1, author: 'Jerry', body: 'I like cheese'},
-			{id:2, author: 'Tom', body: 'I like mice!'}
-		];
-
+		// get comments stored in the state and return each one in a comment component
 		return commentList.map( (comment)=> {
 			return(
 				<Comment 
@@ -92,6 +89,7 @@ class CommentBox extends React.Component {
 		xhr.onreadystatechange = () => { 
 			if (xhr.readyState === 4) { // readyState 4 means the request is done.
 				if (xhr.status === 200) { // status 200 is a successful return.
+					// response should look like "{comments:[...]}"
 					let response = JSON.parse(xhr.responseText);
 					this.setState(response); // this is preserved via arrow function
 					console.log(response);
@@ -100,6 +98,33 @@ class CommentBox extends React.Component {
 				}
 			}
 		};
+	}
+
+	_postComment(form) {
+		let xhr = new XMLHttpRequest();
+
+		// Bind the FormData object and the form element
+		let formData = new FormData(form);
+
+		// Set up our request
+		xhr.open('POST', '/api/comments');
+
+		// Add the required HTTP header for form data POST requests
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		xhr.onreadystatechange = () => { 
+			if (xhr.readyState === 4) { // readyState 4 means the request is done.
+				if (xhr.status === 200) { // status 200 is a successful return.
+					let response = JSON.parse(xhr.responseText);
+					console.log(response);
+				} else {
+					console.log('Error: ' + xhr.status); // An error occurred during the request.
+				}
+			}
+		};
+
+		// The data sent is what the user provided in the form
+		xhr.send(formData);
 	}
 
 }
@@ -122,6 +147,32 @@ class Comment extends React.Component {
 				</div>
 			</div>
 		);
+	}
+}
+
+class CommentForm extends React.Component {
+	render(){
+		return(
+			<form 	className="comment-form" 
+					onSubmit={this._handleSubmit.bind(this)}
+				>
+				<label>
+					<input type="text" placeholder="{this.props.authorLabel}" />
+				</label>
+				<label>
+					{this.props.bodyLabel}
+					<textarea></textarea>
+				</label>
+
+				<button onClick={this._handleClick.bind(this)}>
+					{this.props.buttonText}
+				</button>
+			</form>
+		);
+	}
+
+	_handleSubmit(){
+
 	}
 }
 
