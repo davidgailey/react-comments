@@ -37,7 +37,7 @@ class CommentBox extends React.Component {
 		}
 
 		return(
-				<div className="comment-box">
+				<div className="comment-box" style={{margin: '2em'}}>
 					<h3>React Comments</h3>
 					
 					<CommentForm 
@@ -50,7 +50,8 @@ class CommentBox extends React.Component {
 					<div className="card bg-dark mb-3" style={{padding: '1em',color:'#fff'}}>
 						<div className="card-body">
 							<h5 className="card-title">{this._getCommentsTitle(comments.length)}</h5>
-							<button onClick={this._handleClick.bind(this)} className="btn btn-secondary btn-lg">
+							<button onClick={this._handleClick.bind(this)} 
+									className="btn btn-secondary btn-lg mb-3">
 								{buttonText}
 							</button>
 							{commentNodes}
@@ -143,19 +144,22 @@ class CommentBox extends React.Component {
 class Comment extends React.Component {
 	render(){
 		return(
-			<div className="comment">
-				<p className="comment-header">
+			<div className="comment card bg-light mb-3"
+				 style={{color:'#111'}}>
+				<div className="card-header">
 					{this.props.author}
-				</p>
-				<p className="comment-body">
-					{this.props.body}
-				</p>
-
-				<div className="comment-footer">
-					<a href="#" className="comment-footer-delete">
-						Delete Comment
-					</a>
 				</div>
+				<div className="card-body">
+					{this.props.body}
+					<hr/>
+					<div className="comment-footer">
+						<a href="#" className="comment-footer-delete">
+							Delete Comment
+						</a>
+					</div>
+				</div>
+
+				
 			</div>
 		);
 	}
